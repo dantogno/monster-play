@@ -65,11 +65,10 @@ public class Monster : MonoBehaviour
         else if (currentState == MonsterState.Charging)
         {
             float previousDirectionTowardTarget =
-                (targetRigidbody.position - previousPosition).normalized.x;
-            float directionTowardTarget = DistanceToTarget.normalized.x;
+                Mathf.Sign((targetRigidbody.position - previousPosition).x);
+            float directionTowardTarget = Mathf.Sign(DistanceToTarget.x);
 
-            bool shouldStop = (previousDirectionTowardTarget > 0 && directionTowardTarget < 0)
-                || (previousDirectionTowardTarget < 0 && directionTowardTarget > 0);
+            bool shouldStop = previousDirectionTowardTarget != directionTowardTarget;
 
             Debug.Log($"shouldStop: {shouldStop}");
 
@@ -103,7 +102,6 @@ public class Monster : MonoBehaviour
         return canSee;
     }
 
-    // TODO: test previous direction vs current direction to see if we need to stop.
     // TODO: flip sprite when turning
     // TODO: add some to distance so monster charges past target
     // TODO: check for position change, if it's not much, try jumping?
