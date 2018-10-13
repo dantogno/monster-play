@@ -70,7 +70,7 @@ public class Monster : MonoBehaviour
 
             bool shouldStop = previousDirectionTowardTarget != directionTowardTarget;
 
-            Debug.Log($"shouldStop: {shouldStop}");
+            //Debug.Log($"shouldStop: {shouldStop}");
 
             if (shouldStop)
                 currentState = MonsterState.Idle;
