@@ -6,7 +6,7 @@ using UnityEngine;
 public class Chain : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed = 1, acceleration = 0.5f, friction = 0.5f, maxSpeed = 3;
+    private float moveSpeed = 1, acceleration = 0.5f, friction = 0.5f, maxSpeed = 3, accelerationForce = 200, maxSpeedForce = 10;
 
     [SerializeField]
     private float edgeOfScreenBuffer = 5;
@@ -37,6 +37,7 @@ public class Chain : MonoBehaviour
                 MoveWithMouseAxesAbsolute();
             else
                 MoveWithMouseAxesAcceleration();
+                //MoveWithMouseAddForce();
         }
     }
 
@@ -104,8 +105,17 @@ public class Chain : MonoBehaviour
             targetVelocity = Vector2.Lerp(targetVelocity, Vector2.zero, friction * Time.deltaTime);
 
         velocity = Vector2.ClampMagnitude(targetVelocity, maxSpeed* Time.deltaTime);
-        rigidbody2D.MovePosition(rigidbody2D.position + velocity);
-        
-        
+        rigidbody2D.MovePosition(rigidbody2D.position + velocity);             
+    }
+
+    private void MoveWithMouseAddForce()
+    {
+        Vector2 mouseMovementInput = Vector2.zero;
+        mouseMovementInput.x = Input.GetAxis("Mouse X");
+        mouseMovementInput.y = Input.GetAxis("Mouse Y");
+
+        rigidbody2D.AddForce(mouseMovementInput * accelerationForce * Time.deltaTime, ForceMode2D.Impulse);
+
+       // rigidbody2D.velocity = Vector2.ClampMagnitude(rigidbody2D.velocity, maxSpeedForce);
     }
 }
