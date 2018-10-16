@@ -990,6 +990,7 @@ GameObject:
   - component: {fileID: 211715016}
   - component: {fileID: 211715019}
   - component: {fileID: 211715018}
+  - component: {fileID: 211715020}
   m_Layer: 0
   m_Name: OverheadFlorescentLight
   m_TagString: Untagged
@@ -1094,13 +1095,31 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 0.625
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 30
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!257 &211715020
+TargetJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 211715015}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: 50
+  m_BreakTorque: Infinity
+  m_Anchor: {x: 0, y: 0}
+  m_Target: {x: -24.983274, y: 6.3148484}
+  m_AutoConfigureTarget: 1
+  m_MaxForce: 10000
+  m_DampingRatio: 1
+  m_Frequency: 1
 --- !u!1 &309754333
 GameObject:
   m_ObjectHideFlags: 0
@@ -24502,7 +24521,7 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 0.9375
   m_LinearDrag: 0
-  m_AngularDrag: 1
+  m_AngularDrag: 3
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -29221,6 +29240,7 @@ GameObject:
   - component: {fileID: 2122088107}
   - component: {fileID: 2122088110}
   - component: {fileID: 2122088109}
+  - component: {fileID: 2122088111}
   m_Layer: 0
   m_Name: Certificate
   m_TagString: Untagged
@@ -29281,7 +29301,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2122088106}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.2683067, y: 2.9122562, z: -0.1373698}
+  m_LocalPosition: {x: 8.81, y: 2.81, z: -0.1373698}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1052229782}
@@ -29325,10 +29345,28 @@ Rigidbody2D:
   m_UseAutoMass: 1
   m_Mass: 0.75
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 20
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!257 &2122088111
+TargetJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2122088106}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: 50
+  m_BreakTorque: Infinity
+  m_Anchor: {x: 0, y: 0}
+  m_Target: {x: -10.7884, y: 2.7780967}
+  m_AutoConfigureTarget: 1
+  m_MaxForce: 10000
+  m_DampingRatio: 1
+  m_Frequency: 1.5
