@@ -434,8 +434,8 @@ GameObject:
   - component: {fileID: 66246518}
   - component: {fileID: 66246517}
   - component: {fileID: 66246516}
-  - component: {fileID: 66246520}
   - component: {fileID: 66246521}
+  - component: {fileID: 66246520}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -559,7 +559,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac308a2d2fbff2498b193ef07e8d470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 8.5
+  sightRange: 10
+  attackRange: 6
+  attackLungeForce: 25
   chargeAcceleration: 100
   chargePastTargetDistance: 5
   maxChargeTime: 2
@@ -21659,7 +21661,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.7308, y: 1.7865}
+  m_AnchoredPosition: {x: -1.44, y: 1.43}
   m_SizeDelta: {x: 1.5, y: 1.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &973183947

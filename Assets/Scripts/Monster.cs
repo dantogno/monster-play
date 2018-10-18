@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
 /// Check if target is in range.
@@ -11,6 +12,12 @@ public class Monster : MonoBehaviour
 {
     [SerializeField]
     private float sightRange = 12f;
+
+    [SerializeField]
+    private float attackRange = 5;
+
+    [SerializeField]
+    private float attackLungeForce = 5;
 
     [SerializeField]
     private float chargeAcceleration = 15f;
@@ -37,19 +44,33 @@ public class Monster : MonoBehaviour
     private float currentExcitementBonus = 1f;
     private float maxExcitementBonus = 2f;
     private Vector2 previousPosition;
+    private Animator animator;
+    private bool isFacingRight;
+    private bool canSeeTarget;
 
     private enum MonsterState { Idle, Charging }
     private MonsterState currentState = MonsterState.Idle;
+
+    private const string horizontalSpeedAnimationParameter = "horizontalSpeed", 
+        canSeeTargetAnimationParameter = "canSeeTarget", attackAnimationTriggerParameter = "attack";
 
     private void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
         exclamationPoint.SetActive(false);
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        UpdateAnimationParameters();
+       
     }
 
     private void FixedUpdate()
     {
-        bool canSeeTarget = CheckForTarget();
+        canSeeTarget = CanSeeTarget();
+        float directionTowardTarget = Mathf.Sign(DistanceToTarget.x);
         exclamationPoint.SetActive(canSeeTarget);
 
         if (currentState == MonsterState.Idle)
@@ -60,26 +81,38 @@ public class Monster : MonoBehaviour
                 currentChargeTime = 0f;
             }
             else
+            {
+                //rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
                 FillChargeMeter(canSeeTarget);
+                if (canSeeTarget) UpdateDirectionFacingBasedOnTargetPosition(directionTowardTarget);
+            }
         }
         else if (currentState == MonsterState.Charging)
         {
             float previousDirectionTowardTarget =
-                Mathf.Sign((targetRigidbody.position - previousPosition).x);
-            float directionTowardTarget = Mathf.Sign(DistanceToTarget.x);
-
+                Mathf.Sign((targetRigidbody.position - previousPosition).x);           
             bool shouldStop = previousDirectionTowardTarget != directionTowardTarget;
-
-            //Debug.Log($"shouldStop: {shouldStop}");
 
             if (shouldStop)
                 currentState = MonsterState.Idle;
             else
-                ChargeTowardTarget(directionTowardTarget);            
+            {
+                ChargeTowardTarget(directionTowardTarget);
+                UpdateDirectionFacingBasedOnVelocity();
+                if (IsInAttackRange())
+                    Attack(DistanceToTarget.normalized);
+            }
         }
 
         previousPosition = rigidbody2D.position;
 
+    }
+
+    private void Attack(Vector2 directionTowardTarget)
+    {
+        animator.SetTrigger(attackAnimationTriggerParameter);
+        //rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+        rigidbody2D.AddForce(directionTowardTarget * attackLungeForce, ForceMode2D.Impulse);
     }
 
     private void FillChargeMeter(bool canSeeTarget)
@@ -90,16 +123,22 @@ public class Monster : MonoBehaviour
         chargeSlider.value = currentChargeTime / maxChargeTime;
     }
 
-    private bool CheckForTarget()
+    private bool CanSeeTarget()
     {
         bool canSee = false;
 
         if (DistanceToTarget.magnitude <= sightRange)
-        {
             canSee = true;
-        }
 
         return canSee;
+    }
+
+    private bool IsInAttackRange()
+    {
+        bool isInRange = false;
+        if (DistanceToTarget.magnitude <= attackRange)
+            isInRange = true;
+        return isInRange;
     }
 
     // TODO: flip sprite when turning
@@ -117,6 +156,36 @@ public class Monster : MonoBehaviour
             chargeAcceleration * directionTowardTarget * Time.deltaTime;
 
         rigidbody2D.AddForce(Vector2.right * acceleration, ForceMode2D.Impulse);
+    }
+
+    private void UpdateAnimationParameters()
+    {
+        animator.SetFloat(horizontalSpeedAnimationParameter, Mathf.Abs(rigidbody2D.velocity.x));
+        animator.SetBool(canSeeTargetAnimationParameter, canSeeTarget);
+    }
+
+    private void FlipCharacter()
+    {
+        Vector2 flippedScale = transform.localScale;
+        flippedScale.x *= -1;
+        transform.localScale = flippedScale;
+        isFacingRight = !isFacingRight;
+    }
+
+    private void UpdateDirectionFacingBasedOnVelocity()
+    {
+        if (rigidbody2D.velocity.x < 0 && isFacingRight)
+            FlipCharacter();
+        else if (rigidbody2D.velocity.x > 0 && !isFacingRight)
+            FlipCharacter();
+    }
+
+    private void UpdateDirectionFacingBasedOnTargetPosition(float directionTowardTarget)
+    {
+        if (directionTowardTarget < 0 && isFacingRight)
+            FlipCharacter();
+        else if (directionTowardTarget > 0 && !isFacingRight)
+            FlipCharacter();
     }
 }
 
