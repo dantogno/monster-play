@@ -84,6 +84,9 @@ TextureImporter:
     21300158: Office_furniture_set_79
     21300160: Office_furniture_set_80
     21300162: Office_furniture_set_81
+    21300164: Office_furniture_set_82
+    21300166: Office_furniture_set_83
+    21300168: Office_furniture_set_84
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -1042,10 +1045,10 @@ TextureImporter:
       name: Office_furniture_set_42
       rect:
         serializedVersion: 2
-        x: 288
+        x: 292
         y: 107
-        width: 32
-        height: 5
+        width: 24
+        height: 3
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1834,6 +1837,66 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: c564961fc327746d3b72305c4cde0365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Office_furniture_set_82
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 107
+        width: 3
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f916dc1be55ff314a8e06e73bda617ac
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Office_furniture_set_83
+      rect:
+        serializedVersion: 2
+        x: 316
+        y: 107
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8932c2f8f47dc5145aa4219240fc1b40
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Office_furniture_set_84
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 110
+        width: 24
+        height: 2
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e3825188969d6242a3727c8d169e4d2
       vertices: []
       indices: 
       edges: []
