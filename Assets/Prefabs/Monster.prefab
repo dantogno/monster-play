@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224335449273403852}
   - component: {fileID: 222886392286969632}
   - component: {fileID: 114377265504861020}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,8 +39,24 @@ GameObject:
   - component: {fileID: 223324687878804454}
   - component: {fileID: 114132107859325722}
   - component: {fileID: 114592696988173900}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: MonsterCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1486853810447458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4834820158613260}
+  - component: {fileID: 58147302968283778}
+  m_Layer: 8
+  m_Name: GroundDetectTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +75,7 @@ GameObject:
   - component: {fileID: 50033272866408050}
   - component: {fileID: 95453675634577766}
   - component: {fileID: 114863059203021908}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224725334789440296}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224244013230148928}
   - component: {fileID: 114793315588220018}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ChargeSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +123,7 @@ GameObject:
   - component: {fileID: 224194983146839350}
   - component: {fileID: 222425559692124662}
   - component: {fileID: 114768217747838654}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: ExclamationPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,13 +140,26 @@ GameObject:
   - component: {fileID: 224934660151478164}
   - component: {fileID: 222386607056070584}
   - component: {fileID: 114892864994406046}
-  m_Layer: 5
+  m_Layer: 8
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4834820158613260
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1486853810447458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.36, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4943125724823098}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4943125724823098
 Transform:
   m_ObjectHideFlags: 1
@@ -138,10 +167,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1584084464175530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.1, y: -2.35, z: 0}
+  m_LocalPosition: {x: -16.4, y: -0.08, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 224120627278999804}
+  - {fileID: 4834820158613260}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -165,6 +195,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &58147302968283778
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1486853810447458}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!61 &61109489948713294
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -358,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac308a2d2fbff2498b193ef07e8d470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightRange: 10
+  sightRange: 12
   attackRange: 6
   attackLungeForce: 25
   chargeAcceleration: 100
@@ -366,6 +411,21 @@ MonoBehaviour:
   maxChargeTime: 2
   targetRigidbody: {fileID: 0}
   groundCollider: {fileID: 61109489948713294}
+  groundDetectTrigger: {fileID: 58147302968283778}
+  groundContactFilter:
+    useTriggers: 0
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
   stoppingPhysicsMaterial: {fileID: 6200000, guid: dd66cd1f145a9ff4fb7daa25de530782,
     type: 2}
   movingPhysicsMaterial: {fileID: 6200000, guid: 930efe5cc8c985a4cba55adc3141ce4e,

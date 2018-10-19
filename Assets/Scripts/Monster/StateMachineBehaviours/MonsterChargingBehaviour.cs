@@ -13,13 +13,16 @@ public class MonsterChargingBehaviour : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
+        animator.ResetTrigger(monster.AttackTriggerAnimParam);
         monster.ChargeTowardTarget();
         monster.FaceDirectionMoving();
 
-        // Stop trigger will automatically fire if ShouldStopCharging is true here.
-        if (!monster.ShouldStopCharging)
+        // Stop trigger will automatically fire if CheckIfShouldStopCharging returns true here.
+        bool shouldStopCharging = monster.CheckIfShouldStopCharging();
+        if (!shouldStopCharging)
         {
-            // TODO attack logic.
+            bool shouldAttack = monster.CheckIfShouldAttack();
+            if (shouldAttack) monster.Attack();
         }
     }
 

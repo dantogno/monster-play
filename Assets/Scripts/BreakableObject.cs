@@ -17,7 +17,7 @@ public class BreakableObject : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var requiredForce = collision.gameObject.CompareTag("Player") ? playerBreakForce : requiredForceForBreak;
-        Debug.Log($"Collision relative velocity magnitude: {collision.relativeVelocity.magnitude}");
+        //Debug.Log($"Collision relative velocity magnitude: {collision.relativeVelocity.magnitude}");
         if (collision.relativeVelocity.magnitude > requiredForce)
         {
             Explode(collision.GetContact(0).point);

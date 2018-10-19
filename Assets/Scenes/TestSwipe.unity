@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 24033742}
   - component: {fileID: 24033741}
   - component: {fileID: 24033745}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 37641503}
   - component: {fileID: 37641504}
   - component: {fileID: 37641508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20717,7 +20717,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 47.958458
+  field of view: 47.941387
   orthographic: 1
   orthographic size: 5.6
   m_Depth: -1
@@ -20797,7 +20797,7 @@ GameObject:
   - component: {fileID: 569168199}
   - component: {fileID: 569168198}
   - component: {fileID: 569168202}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21077,7 +21077,7 @@ GameObject:
   - component: {fileID: 815513547}
   - component: {fileID: 815513548}
   - component: {fileID: 815513552}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22460,7 +22460,7 @@ GameObject:
   - component: {fileID: 1114639964}
   - component: {fileID: 1114639965}
   - component: {fileID: 1114639969}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22725,7 +22725,7 @@ GameObject:
   - component: {fileID: 1239010729}
   - component: {fileID: 1239010730}
   - component: {fileID: 1239010734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22880,7 +22880,7 @@ GameObject:
   - component: {fileID: 1258160073}
   - component: {fileID: 1258160074}
   - component: {fileID: 1258160078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23035,7 +23035,7 @@ GameObject:
   - component: {fileID: 1532800188}
   - component: {fileID: 1532800189}
   - component: {fileID: 1532800193}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23189,7 +23189,7 @@ GameObject:
   - component: {fileID: 1534118800}
   - component: {fileID: 1534118804}
   - component: {fileID: 1534118803}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23416,7 +23416,7 @@ GameObject:
   - component: {fileID: 1618426256}
   - component: {fileID: 1618426257}
   - component: {fileID: 1618426261}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23566,7 +23566,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1623139535}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chain
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -23612,7 +23612,7 @@ GameObject:
   - component: {fileID: 1744397927}
   - component: {fileID: 1744397928}
   - component: {fileID: 1744397932}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23798,6 +23798,31 @@ Prefab:
       propertyPath: targetRigidbody
       value: 
       objectReference: {fileID: 569168199}
+    - target: {fileID: 114863059203021908, guid: 4edf3b323bf2d13479b84c39f7facdbc,
+        type: 2}
+      propertyPath: attackLungeYAdjustment
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114863059203021908, guid: 4edf3b323bf2d13479b84c39f7facdbc,
+        type: 2}
+      propertyPath: attackLungeForce
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 114863059203021908, guid: 4edf3b323bf2d13479b84c39f7facdbc,
+        type: 2}
+      propertyPath: attackRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114863059203021908, guid: 4edf3b323bf2d13479b84c39f7facdbc,
+        type: 2}
+      propertyPath: sightRange
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 114863059203021908, guid: 4edf3b323bf2d13479b84c39f7facdbc,
+        type: 2}
+      propertyPath: attackRangeX
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4edf3b323bf2d13479b84c39f7facdbc, type: 2}
   m_IsPrefabAsset: 0
@@ -23814,7 +23839,7 @@ GameObject:
   - component: {fileID: 1874249597}
   - component: {fileID: 1874249598}
   - component: {fileID: 1874249602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24011,7 +24036,7 @@ GameObject:
   - component: {fileID: 2000301677}
   - component: {fileID: 2000301678}
   - component: {fileID: 2000301682}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChainLink (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

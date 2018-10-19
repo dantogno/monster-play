@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
@@ -14,7 +15,7 @@ public class Monster : MonoBehaviour
     private float sightRange = 12f;
 
     [SerializeField]
-    private float attackRange = 5;
+    private float attackRangeX = 5, attackRangeY = 10;
 
     [SerializeField]
     private float attackLungeForce = 5;
@@ -32,7 +33,10 @@ public class Monster : MonoBehaviour
     private Rigidbody2D targetRigidbody;
 
     [SerializeField]
-    private Collider2D groundCollider;
+    private Collider2D groundCollider, groundDetectTrigger;
+
+    [SerializeField]
+    private ContactFilter2D groundContactFilter;
 
     [SerializeField]
     private PhysicsMaterial2D stoppingPhysicsMaterial, movingPhysicsMaterial;
@@ -42,16 +46,24 @@ public class Monster : MonoBehaviour
 
     [SerializeField]
     private GameObject exclamationPoint;
+
+    [SerializeField]
+    private float attackLungeYAdjustment = 2;
+
+    [SerializeField]
+    private float attackCooldown = 2;
+
+    [SerializeField]
+    private float lungeAttackMaxY = 500, lungeAttackMinY = 100;
     #endregion
 
     #region Public Properties
     public PhysicsMaterial2D StoppingPhysicsMaterial => stoppingPhysicsMaterial;
     public PhysicsMaterial2D MovingPhysicsMaterial => movingPhysicsMaterial;
     public bool CanSeeTarget { get; private set; }
-    public bool IsInAttackRange => CheckIfTargetIsInAttackRange();
     public Vector2 DistanceToTarget => targetRigidbody.position - rigidbody2D.position;
     public float XDirectionTowardTarget => Mathf.Sign(DistanceToTarget.x);
-    public bool ShouldStopCharging => CheckIfShouldStopCharging();
+    public int AttackTriggerAnimParam => attackTriggerAnimParam;
     #endregion
 
 
@@ -67,16 +79,20 @@ public class Monster : MonoBehaviour
     private MonsterAlertedBehaviour monsterAlertedBehaviour;
     private MonsterChargingBehaviour monsterChargingBehaviour;
     private MonsterStoppingBehaviour monsterStoppingBehaviour;
+    private Collider2D[] groundHitDetectionResults = new Collider2D[16];
+    private bool isOnGround;
+    private bool attackIsOnCooldown;
 
     private int horizontalSpeedAnimPram = Animator.StringToHash("horizontalSpeed"),
+        verticalSpeedAnimParam = Animator.StringToHash("verticalSpeed"),
         attackTriggerAnimParam = Animator.StringToHash("attack"),
         canSeeTargetAnimParam = Animator.StringToHash("canSeeTarget"),
+        isOnGroundAnimParam = Animator.StringToHash("isOnGround"),
         chargeTriggerAnimParam = Animator.StringToHash("charge"),
         stopTriggerAnimParam = Animator.StringToHash("stop");
     #endregion
 
-    private enum MonsterState { Idle, Charging }
-    private MonsterState currentState = MonsterState.Idle;
+
 
     #region Monobehaviour Message Functions
     private void Awake()
@@ -93,43 +109,19 @@ public class Monster : MonoBehaviour
 
     private void Update()
     {
+        UpdateIsOnGround();
         UpdateAnimationParameters();
+    }
+
+    private void UpdateIsOnGround()
+    {
+        isOnGround = groundDetectTrigger.OverlapCollider(groundContactFilter, groundHitDetectionResults) > 0;
     }
 
     private void FixedUpdate()
     {
         CanSeeTarget = CheckIfTargetIsInSightRange();
        
-
-        //if (currentState == MonsterState.Idle)
-        //{
-            //if (currentChargeTime >= maxChargeTime)
-            //{
-            //    currentState = MonsterState.Charging;
-            //    currentChargeTime = 0f;
-            //}
-            //else
-            //{
-               // FillChargeMeter(CanSeeTarget);
-           // }
-        //}
-        //else if (currentState == MonsterState.Charging)
-        //{
-        //    float previousDirectionTowardTarget =
-        //        Mathf.Sign((targetRigidbody.position - previousPosition).x);
-        //    bool shouldStop = previousDirectionTowardTarget != XDirectionTowardTarget;
-
-        //    if (shouldStop)
-        //        currentState = MonsterState.Idle;
-        //    else
-        //    {
-        //        ChargeTowardTarget();
-        //        FaceDirectionMoving();
-        //        if (CheckIfTargetIsInAttackRange())
-        //            Attack(DistanceToTarget.normalized);
-        //    }
-        //}
-        //previousPosition = rigidbody2D.position;
     }
     #endregion
 
@@ -152,11 +144,6 @@ public class Monster : MonoBehaviour
         monsterStoppingBehaviour.monster = this;
     }
 
-    private void Attack(Vector2 directionTowardTarget)
-    {
-        animator.SetTrigger(attackTriggerAnimParam);
-        rigidbody2D.AddForce(directionTowardTarget * attackLungeForce, ForceMode2D.Impulse);
-    }
 
     /// <summary>
     /// Returns true if the target is in sight range.
@@ -177,32 +164,16 @@ public class Monster : MonoBehaviour
     private bool CheckIfTargetIsInAttackRange()
     {
         bool isInRange = false;
-        if (DistanceToTarget.magnitude <= attackRange)
+        if (Mathf.Abs(DistanceToTarget.x) <= attackRangeX && Mathf.Abs(DistanceToTarget.y) <= attackRangeY)
             isInRange = true;
         return isInRange;
-    }
-
-    /// <summary>
-    /// Returns true if the monster should stop charging. Fires stop trigger if true.
-    /// 
-    /// Not sure about automatically firing the stop trigger here, but it saves
-    /// making a bunch of public properties for the anim triggers.
-    /// Is there ever a case where shouldStop is true and we DONT want to 
-    /// fire the stop trigger?
-    /// </summary>
-    private bool CheckIfShouldStopCharging()
-    {
-        bool shouldStop = false;
-        float xDirectionMoving = Mathf.Sign(rigidbody2D.velocity.x);
-        bool movingWrongWay = XDirectionTowardTarget != xDirectionMoving;
-        shouldStop = movingWrongWay && DistanceToTarget.magnitude > sightRange;
-        if (shouldStop) animator.SetTrigger(stopTriggerAnimParam);
-        return shouldStop;
     }
 
     private void UpdateAnimationParameters()
     {
         animator.SetFloat(horizontalSpeedAnimPram, Mathf.Abs(rigidbody2D.velocity.x));
+        animator.SetFloat(verticalSpeedAnimParam, rigidbody2D.velocity.y);
+        animator.SetBool(isOnGroundAnimParam, isOnGround);
         animator.SetBool(canSeeTargetAnimParam, CanSeeTarget);
     }
 
@@ -215,6 +186,12 @@ public class Monster : MonoBehaviour
         flippedScale.x *= -1;
         transform.localScale = flippedScale;
         isFacingRight = !isFacingRight;
+    }
+
+    private IEnumerator WaitForAttackCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        attackIsOnCooldown = false;
     }
     #endregion
 
@@ -288,6 +265,46 @@ public class Monster : MonoBehaviour
             chargeAcceleration * XDirectionTowardTarget * Time.deltaTime;
 
         rigidbody2D.AddForce(Vector2.right * acceleration, ForceMode2D.Impulse);
+    }
+
+    /// <summary>
+    /// Returns true if the monster should stop charging. Fires stop trigger if true.
+    /// 
+    /// Not sure about automatically firing the stop trigger here, but it saves
+    /// making a bunch of public properties for the anim triggers.
+    /// Is there ever a case where shouldStop is true and we DONT want to 
+    /// fire the stop trigger?
+    /// </summary>
+    public bool CheckIfShouldStopCharging()
+    {
+        bool shouldStop = false;
+        float xDirectionMoving = Mathf.Sign(rigidbody2D.velocity.x);
+        bool movingWrongWay = XDirectionTowardTarget != xDirectionMoving;
+        shouldStop = movingWrongWay && DistanceToTarget.magnitude > sightRange;
+        if (shouldStop) animator.SetTrigger(stopTriggerAnimParam);
+        return shouldStop;
+    }
+
+    public bool CheckIfShouldAttack()
+    {
+        bool shouldAttack = CheckIfTargetIsInAttackRange() && !attackIsOnCooldown;
+        if (shouldAttack) animator.SetTrigger(attackTriggerAnimParam);
+        return shouldAttack;
+    }
+
+    public void Attack()
+    {
+        animator.SetTrigger(attackTriggerAnimParam);
+        Vector2 attackLungeDirection = DistanceToTarget.normalized;
+        Vector2 force = attackLungeDirection;
+        force.y += attackLungeYAdjustment + DistanceToTarget.y / 2;
+        force *= attackLungeForce;
+        force.y = Mathf.Clamp(force.y, lungeAttackMinY, lungeAttackMaxY);
+        Debug.Log($"Attack force: {force}");
+        rigidbody2D.AddForce(force, ForceMode2D.Impulse);
+        FaceDirectionMoving();
+        attackIsOnCooldown = true;
+        StartCoroutine(WaitForAttackCooldown());
     }
 
 
